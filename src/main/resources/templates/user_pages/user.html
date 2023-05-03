@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head>
+  <title>User page</title>
+  <div th:insert="/layouts/meta_layout::head"></div>
+  <script defer src="/js/user.js"></script>
+
+</head>
+<body>
+<body>
+<!--NAVBAR-->
+<div th:object="${user}" th:insert="/layouts/navbar_layout::navbar"></div>
+
+<!--MAIN-->
+<main class="d-flex h-100">
+<!--  SIDEBAR -->
+  <div class="col-2 px-md-0" th:insert="/layouts/sidebar_layouts::sidebar_active_user"></div>
+
+  <section class="col-10 bg-light px-5 pt-4">
+    <h1 class="mb-3">User information-page</h1>
+    <!-- TABS CONTENT -->
+    <div class="border border-top-0 tab-content" id="mainTabContent">
+      <!-- USERLIST-->
+      <div class="tab-pane fade show active" id="home-tab-pane" tabindex="0">
+        <h4 class="p-3 mb-0 border-bottom border-top">About user</h4>
+        <div th:insert="/layouts/table_layout::table" class="p-4 bg-white"></div>
+      </div> <!-- END USERLIST-->
+
+    </div>
+  </section>
+
+</main>
+
+</body>
+
+</body>
+</html>

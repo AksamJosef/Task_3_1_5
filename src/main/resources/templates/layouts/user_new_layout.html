@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--NEW USER-->
+<div th:fragment="new">
+  <form
+      id="new-tab"
+      class="d-flex flex-column align-items-center">
+
+  <!--  FIRST NAME -->
+  <div class="mb-3 d-flex flex-column align-items-center w-100">
+    <label for="name" class="form-label">First name</label>
+    <input type="text"
+           class="form-control"
+           id="name"
+           name="name"
+           required>
+  </div>
+
+  <!--  LAST NAME-->
+  <div class="mb-3 d-flex flex-column align-items-center w-100">
+    <label for="lastName" class="form-label">Last name</label>
+    <input type="text"
+           class="form-control"
+           id="lastName"
+           name="lastName"
+           required>
+  </div>
+
+  <!--  AGE -->
+  <div class="mb-3 d-flex flex-column align-items-center w-100">
+    <label for="age" class="form-label">Age</label>
+    <input type="text"
+           class="form-control"
+           id="age"
+           name="age"
+           required
+    >
+  </div>
+
+  <!--  EMAIL -->
+  <div class="mb-3 d-flex flex-column align-items-center w-100">
+    <label for="username" class="form-label">Email address</label>
+    <input type="email"
+           class="form-control"
+           id="username"
+           name="username"
+           required>
+  </div>
+  <!--  PASSWORD -->
+  <div class="mb-3 d-flex flex-column align-items-center w-100">
+    <label for="password" class="form-label">Password</label>
+    <input type="password"
+           class="form-control"
+           id="password"
+           name="password"
+           required>
+  </div>
+  <!--ROLES -->
+    <div class="mb-3 d-flex flex-column align-items-center w-100">
+      <label for="roles" class="form-label">Role</label>
+      <select
+              th:size="${roles.size()}"
+              th:multiple="roles"
+              id="roles"
+              name="roles"
+              class="form-select w-100"
+              required>
+        <option
+                th:each="role: ${roles}"
+                th:value="${role.getId()}"
+                th:text="${role.getRole()}"
+        />
+      </select>
+    <button type="submit" class="mt-5 btn btn-success fs-4">Add new
+      user
+    </button>
+  </div>
+
+  </form>
+</div>
+
+</body>
+</html>
