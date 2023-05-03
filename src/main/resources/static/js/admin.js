@@ -294,7 +294,7 @@ function createUserForm(action, user, allRoles) {
         {name: "id", label: "ID", value: id},
         {name: "name", label: "First name", value: name},
         {name: "lastName", label: "Last name", value: lastName},
-        {name: "age", label: "Birth date", value: age},
+        {name: "age", label: "Age", value: age},
         {name: "username", label: "Email", value: username},
         {name: "password", label: "Password", value: password},
         {name: "roles", label: "Role", value: roles}

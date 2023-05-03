@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class UserDTO {
 
-    private Integer id;
+    private Long id;
     private String username;
     private String password;
     private String name;
@@ -38,11 +38,11 @@ public class UserDTO {
 
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -35,7 +35,7 @@ public class RESTAdminController {
     }
 
     @GetMapping("users/{id}")
-    public UserDTO getUser(@PathVariable Integer id) {
+    public UserDTO getUser(@PathVariable Long id) {
         User userById = userService.getUserById(id);
         if (userById == null)
             throw new NoSuchUserException("There are no such user with ID = " + id);
@@ -57,7 +57,7 @@ public class RESTAdminController {
     }
 
     @DeleteMapping ("/users/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Integer id) {
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         userService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
