@@ -42,8 +42,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void delete(int id) {
-        usersRepository.deleteById(Math.toIntExact(id));
+    public void delete(Integer id) {
+        usersRepository.deleteById(id);
     }
 
 
@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User getUserById(int id) {
-        return usersRepository.findById(Math.toIntExact(id)).orElse(null);
+    public User getUserById(Integer id) {
+        return usersRepository.findById(id).orElse(null);
     }
 
 

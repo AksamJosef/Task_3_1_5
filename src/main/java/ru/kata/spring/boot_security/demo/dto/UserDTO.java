@@ -13,10 +13,9 @@ import java.util.stream.Collectors;
 
 public class UserDTO {
 
-    private int id;
+    private Integer id;
     private String username;
     private String password;
-
     private String name;
     private String lastName;
 
@@ -37,22 +36,13 @@ public class UserDTO {
         this.roles = user.getRoles();
     }
 
-    public UserDTO(int id, String username, String password, String name,
-                   String lastName, int age, Set<Role> roles) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.lastName = lastName;
-        this.age = age;
-        this.roles = roles;
-    }
 
-    public int getId() {
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
