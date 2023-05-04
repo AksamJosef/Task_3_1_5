@@ -62,26 +62,8 @@
            required>
   </div>
   <!--ROLES -->
-    <div class="mb-3 d-flex flex-column align-items-center w-100">
-      <label for="roles" class="form-label">Role</label>
-      <select
-              th:size="${roles.size()}"
-              th:multiple="roles"
-              id="roles"
-              name="roles"
-              class="form-select w-100"
-              required>
-        <option
-                th:each="role: ${roles}"
-                th:value="${role.getId()}"
-                th:text="${role.getRole()}"
-        />
-      </select>
-    <button type="submit" class="mt-5 btn btn-success fs-4">Add new
-      user
-    </button>
-  </div>
-
+    <div id="newUserRoles" class="mb-3 d-flex flex-column align-items-center w-100"> </div>
+    <button type="submit" class="mt-5 btn btn-success fs-4"> Add new user </button>
   </form>
 </div>
 

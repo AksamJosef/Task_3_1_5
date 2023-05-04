@@ -1,14 +1,19 @@
 const LOCALHOST_8080 = "http://localhost:8080/api/";
 
-
-/** TABLE */
+/** RENDER PAGE VIA JS */
 const tableBody = document.getElementById("tableBody");
 const tableHead = document.getElementById("tableHead");
+const navRoles = document.getElementById("nav_roles");
+const currentUserName = document.getElementById("currentUserName");
+const newUserRoles = document.getElementById("newUserRoles");
 
 tableBody.addEventListener("click", handleModalWindow);
-fetchAllUsers().then(users => {
+fetchAllUsers()
+    .then(users => {
+    fetchCurrentUser().then(currentUser => fillNavbar(currentUser));
     fillTable(tableHead, tableBody, users);
-});
+})
+    .then(() => fillNewUserRoles());
 /** END TABLE */
 
 
@@ -16,6 +21,12 @@ fetchAllUsers().then(users => {
  * FETCH BLOCK */
 
 /** GET */
+
+async function fetchCurrentUser() {
+    const response = await fetch(LOCALHOST_8080 + "user");
+    return response.json();
+}
+
 async function fetchUserById(id) {
     const response = await fetch(LOCALHOST_8080 + "admin/users/" + id);
     return response.json();
@@ -50,6 +61,7 @@ async function updateUser(user) {
     });
     return response.json();
 }
+
 /**  DELETE */
 async function deleteUser(id) {
     const response = await fetch(LOCALHOST_8080 + "admin/users/" + id, {
@@ -69,6 +81,7 @@ function fillTable(_tableHead, _tableBody, usersData) {
     fillHead(_tableHead);
     fillRows(_tableBody, usersData);
 }
+
 function fillHead(parentElement) {
     parentElement.innerHTML = "";
     parentElement.append(AdminHeadRow())
@@ -83,6 +96,12 @@ function fillRows(parentElement, usersData) {
         parentElement.append(AdminUserRow(usersData));
     }
 }
+
+function fillNavbar({username, roleNames}) {
+    currentUserName.innerText = username;
+    roleNames.forEach(role => navRoles.innerText += role + " ")
+}
+
 /**  END: METHODS TO FILL TABLE HEAD AND CONTENT */
 
 /**  STATIC DATA OF TABLE HEAD */
@@ -116,6 +135,7 @@ function AdminHeadRow() {
 
     return headRow;
 }
+
 /**  END: STATIC DATA OF TABLE HEAD */
 
 
@@ -143,34 +163,36 @@ function AdminUserRow({id, username, name, lastName, age, roleNames}) {
     roleNames.forEach(role => userRoles.innerText += role + " ");
 
     const _edit = createElement("td", "align-middle", userRow);
-        const buttonEdit = createElement("button", "btn btn-info", _edit);
-        buttonEdit.innerText = "Edit";
-        buttonEdit.dataset.bsToggle = "modal";
-        buttonEdit.dataset.bsTarget = "#modalWindow";
-        buttonEdit.dataset.userId = id;
-        buttonEdit.dataset.action = "edit";
+    const buttonEdit = createElement("button", "btn btn-info", _edit);
+    buttonEdit.innerText = "Edit";
+    buttonEdit.dataset.bsToggle = "modal";
+    buttonEdit.dataset.bsTarget = "#modalWindow";
+    buttonEdit.dataset.userId = id;
+    buttonEdit.dataset.action = "edit";
 
     const _delete = createElement("td", "align-middle", userRow);
-        const buttonDelete = createElement("button", "btn btn-danger", _delete);
-        buttonDelete.innerText = "Delete";
-        buttonDelete.dataset.bsToggle = "modal";
-        buttonDelete.dataset.bsTarget = "#modalWindow";
-        buttonDelete.dataset.userId = id;
-        buttonDelete.dataset.action = "delete";
+    const buttonDelete = createElement("button", "btn btn-danger", _delete);
+    buttonDelete.innerText = "Delete";
+    buttonDelete.dataset.bsToggle = "modal";
+    buttonDelete.dataset.bsTarget = "#modalWindow";
+    buttonDelete.dataset.userId = id;
+    buttonDelete.dataset.action = "delete";
 
     return userRow;
 }
+
 /** END: DATA FROM USER LIST */
 
 
 /**  CREATE ELEMENT WITH STYLES CONNECTED TO PARENT */
 function createElement(tagName, bootstrapClass, parent) {
     const element = document.createElement(tagName);
-    if(parent) parent.append(element);
+    if (parent) parent.append(element);
     element.className = bootstrapClass;
 
     return element;
 }
+
 /**  END: CREATE ELEMENT WITH STYLES CONNECTED TO PARENT */
 
 /**  TRANSFER FORM TO OBJECT USER */
@@ -178,9 +200,11 @@ function createElement(tagName, bootstrapClass, parent) {
 function mapFormToUser(form) {
     const formData = new FormData(form);
     const user = {};
+
     function Role(id) {
         this.id = id;
     }
+
     for (const [key, value] of formData) {
         // if key is "roles" -- create a [] array, then push each role via
         // new Role(id) --> in JSON we have structure: [{"id": 1}, {"id":2}] for roles Admin+User
@@ -197,6 +221,7 @@ function mapFormToUser(form) {
 /**  END: TRANSFER FORM TO OBJECT USER */
 
 /**  ADD NEW USER TAB */
+
 const newUserForm = document.getElementById("new-tab");
 
 newUserForm.addEventListener("submit", handleNewUser);
@@ -204,6 +229,27 @@ const homeTab = document.getElementById("home-tab");
 const profileTab = document.getElementById("profile-tab");
 const homePane = document.getElementById("home-tab-pane");
 const profilePane = document.getElementById("profile-tab-pane");
+
+async function fillNewUserRoles() {
+    const roles = await fetchAllRoles();
+    const label = createElement("label", "form-label fw-bold", newUserRoles);
+    label.innerText = "Role";
+    label.setAttribute("for", "roles");
+    const select = createElement("select", "form-select w-100", newUserRoles);
+    select.id = "roles";
+    select.name = "roles";
+    select.multiple = true;
+    select.required = true;
+
+    roles.forEach(role => {
+        const option = createElement("option", "", select);
+        option.value = role.id || role;
+        option.innerText = role.role || role;
+
+    });
+
+}
+
 
 function handleNewUser(event) {
     event.preventDefault();
@@ -220,6 +266,7 @@ function handleNewUser(event) {
         });
     });
 }
+
 /**  END: ADD NEW USER TAB */
 
 
@@ -230,6 +277,7 @@ modalActionBtn.addEventListener("click", handleModalAction);
 
 const modalTitle = document.querySelector(".modal-title");
 const modalBody = document.querySelector("#modalBody");
+
 async function handleModalWindow(event) {
     const userId = event.target.dataset.userId;
     if (!userId) return;
@@ -270,21 +318,25 @@ async function handleModalAction(event) {
         const user = mapFormToUser(form);
         userId.disabled = true;
 
+        if (user.password === "") {
+            delete user.password;
+        }
+
         updateUser(user)
             .then(() => {
                 fetchAllUsers()
                     .then(users => {
-                fillTable(tableHead, tableBody, users);
+                        fillTable(tableHead, tableBody, users);
+                    });
             });
-        });
     } else if (modalActionBtn.dataset.action === "delete") {
         deleteUser(userId.dataset.userId)
             .then(() => {
-            fetchAllUsers()
-                .then(users => {
-                fillTable(tableHead, tableBody, users);
+                fetchAllUsers()
+                    .then(users => {
+                        fillTable(tableHead, tableBody, users);
+                    });
             });
-        });
     }
 }
 
@@ -347,8 +399,8 @@ function createUserForm(action, user, allRoles) {
 
         if (data.name === "password") {
             input.type = "password";
-            input.value = data.value;
-        }  else {
+            input.value = "";
+        } else {
             input.type = "text";
         }
 
@@ -360,6 +412,7 @@ function createUserForm(action, user, allRoles) {
         }
         input.dataset.userId = id;
     });
+    
     return form;
 }
 

@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org">
 
 <body>
 
 <!--NAVBAR-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav_bar" th:fragment="navbar">
     <strong>
-        <span class="navbar-text" th:text="${user.getUsername()}"/>
+        <span class="navbar-text" id="currentUserName"></span>
     </strong>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -19,9 +18,8 @@
           with roles:
         </span>
             </li>
-
             <li class="nav-item">
-                <span class="navbar-text" th:text=" ${#strings.arrayJoin(user.getRoleNames(), ' ')}"/>
+                <span id="nav_roles" class="navbar-text"></span>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" th:action="@{/logout}">

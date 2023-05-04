@@ -1,6 +1,10 @@
 const tableBody = document.getElementById("tableBody");
 const tableHead = document.getElementById("tableHead");
 
+const navRoles = document.getElementById("nav_roles");
+const currentUserName = document.getElementById("currentUserName");
+
+
 
 // ----- FETCH BLOCK
 fetch("http://localhost:8080/api/user")
@@ -8,6 +12,7 @@ fetch("http://localhost:8080/api/user")
         return response.json();
     })
     .then(currentUser => {
+        fillNavbar(currentUser)
         fillHead(tableHead);
         fillRow(tableBody, currentUser);
     });
@@ -23,6 +28,11 @@ function fillHead(parentElement) {
 function fillRow(parentElement, usersData) {
     parentElement.innerHTML = "";
     parentElement.append(UserRow(usersData));
+}
+
+function fillNavbar({username, roleNames}) {
+    currentUserName.innerText = username;
+    roleNames.forEach(role => navRoles.innerText += role + " ")
 }
 
 // STATIC DATA OF TABLE HEAD
@@ -53,6 +63,10 @@ function HeadRow() {
 }
 
 // DATA BOUT CURRENT USER
+function Navbar({username, roleNames}) {
+
+}
+
 function UserRow({id, username, name, lastName, age, roleNames}) {
     const userRow = createElement("tr");
 

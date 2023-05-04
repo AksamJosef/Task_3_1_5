@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.dto.UserDTO;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.exceptions.NoSuchUserException;
-import ru.kata.spring.boot_security.demo.exceptions.UserIncorrectID;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.List;
@@ -16,31 +15,33 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin/")
-public class RESTAdminController {
+public class RestAdminController {
 
     private final UserService userService;
 
     @Autowired
-    public RESTAdminController(UserService userService) {
+    public RestAdminController(UserService userService) {
         this.userService = userService;
     }
 
 
     @GetMapping("users")
-    public List<UserDTO> getAllUsers() {
-        return userService.getUserList()
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> userList = userService.getUserList()
                 .stream()
                 .map(UserDTO::new)
                 .collect(Collectors.toList());
+
+        return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
     @GetMapping("users/{id}")
-    public UserDTO getUser(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
         User userById = userService.getUserById(id);
         if (userById == null)
             throw new NoSuchUserException("There are no such user with ID = " + id);
 
-        return new UserDTO(userById);
+        return new ResponseEntity<>(new UserDTO(userById), HttpStatus.OK);
     }
 
 

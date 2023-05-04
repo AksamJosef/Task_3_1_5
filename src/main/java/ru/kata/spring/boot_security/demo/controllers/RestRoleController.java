@@ -9,16 +9,15 @@ import ru.kata.spring.boot_security.demo.entities.Role;
 import ru.kata.spring.boot_security.demo.repositories.RolesRepository;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/roles")
-public class RESTRoleController {
+public class RestRoleController {
 
     private final RolesRepository rolesRepository;
 
     @Autowired
-    public RESTRoleController(RolesRepository rolesRepository) {
+    public RestRoleController(RolesRepository rolesRepository) {
         this.rolesRepository = rolesRepository;
     }
 

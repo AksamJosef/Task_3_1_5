@@ -1,12 +1,12 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.repositories.RolesRepository;
 import ru.kata.spring.boot_security.demo.repositories.UsersRepository;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -15,23 +15,22 @@ public class UserServiceImpl implements UserService {
 
     private final UsersRepository usersRepository;
     private final RolesRepository rolesRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UsersRepository usersRepository, RolesRepository rolesRepository) {
+    public UserServiceImpl(UsersRepository usersRepository, RolesRepository rolesRepository, PasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
         this.rolesRepository = rolesRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
     @Transactional
     @Override
     public void addAsUser(User user) {
-        if (user.getRoles() == null) {
-            user.addRole(rolesRepository.getById(1));
-        } else {
-            user.setRoles(user.getRoles());
-        }
-        usersRepository.saveAndFlush(user);
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        usersRepository.save(user);
     }
 
     @Override
@@ -50,6 +49,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void update(User user) {
+        User userInDB = getUserById(user.getId());
+
+        if (!user.getPassword().equals(userInDB.getPassword())) {
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
+        }
         usersRepository.save(user);
     }
 
