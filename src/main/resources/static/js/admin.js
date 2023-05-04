@@ -319,7 +319,7 @@ async function handleModalAction(event) {
         userId.disabled = true;
 
         if (user.password === "") {
-            delete user.password;
+            user.password = modalCurrentUserPass;
         }
 
         updateUser(user)
@@ -339,6 +339,8 @@ async function handleModalAction(event) {
             });
     }
 }
+
+let modalCurrentUserPass;
 
 function createUserForm(action, user, allRoles) {
     const {id, name, lastName, age, username, password, roles} = user;
@@ -400,6 +402,7 @@ function createUserForm(action, user, allRoles) {
         if (data.name === "password") {
             input.type = "password";
             input.value = "";
+            modalCurrentUserPass = data.value;
         } else {
             input.type = "text";
         }

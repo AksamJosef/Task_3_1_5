@@ -52,8 +52,7 @@ public class UserServiceImpl implements UserService {
 
         User userInDB = getUserById(user.getId());
 
-
-        if (!(passwordEncoder.encode(user.getPassword()).equals(userInDB.getPassword()))) {
+        if (!(user.getPassword().equals(userInDB.getPassword()))) {
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
         }
