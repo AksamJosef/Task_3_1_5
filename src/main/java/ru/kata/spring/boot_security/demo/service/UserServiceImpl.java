@@ -49,12 +49,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void update(User user) {
+
         User userInDB = getUserById(user.getId());
 
-        if (!user.getPassword().equals(userInDB.getPassword())) {
+
+        if (!(passwordEncoder.encode(user.getPassword()).equals(userInDB.getPassword()))) {
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
         }
+
         usersRepository.save(user);
     }
 
