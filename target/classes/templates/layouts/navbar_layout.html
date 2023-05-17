@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav_bar" th:fragment="navbar">
+    <strong>
+        <span class="navbar-text" id="currentUserName"></span>
+    </strong>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+        <span class="navbar-text">
+          with roles:
+        </span>
+            </li>
+            <li class="nav-item">
+                <span id="nav_roles" class="navbar-text"></span>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" th:action="@{/logout}">
+            <button class="btn btn-dark my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+    </div>
+</nav>
+
+
+</body>
+</html>

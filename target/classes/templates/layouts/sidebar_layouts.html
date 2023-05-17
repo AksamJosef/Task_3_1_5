@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="sidebar_active_admin">
+  <ul class="pt-4 list-group fs-5" >
+    <li sec:authorize="hasRole('ROLE_ADMIN')">
+      <a th:href="@{/admin}"
+         class="list-group-item list-group-item-action active">Admin</a>
+    </li>
+    <li sec:authorize="hasRole('ROLE_USER')">
+      <a th:href="@{/user}"
+         class="list-group-item list-group-item-action">User</a>
+    </li>
+  </ul>
+</div>
+
+<div th:fragment="sidebar_active_user">
+  <ul class="pt-4 list-group fs-5" >
+    <li sec:authorize="hasRole('ROLE_ADMIN')">
+      <a th:href="@{/admin}"
+         class="list-group-item list-group-item-action">Admin</a>
+    </li>
+    <li sec:authorize="hasRole('ROLE_USER')">
+      <a th:href="@{/user}"
+         class="list-group-item list-group-item-action active">User</a>
+    </li>
+  </ul>
+</div>
+
+</body>
+</html>

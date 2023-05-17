@@ -1,0 +1,39 @@
+.navbar .navbar-dark .bg-dark {
+    background: rgb(52, 58, 64);
+}
+.navbar .navbar-text {
+    color: white;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.navbar .nav-item {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.navbar .btn {
+    color: rgb(130, 130, 130);
+}
+
+.list-group-item {
+    border: 0;
+
+}
+
+.list-group-item:hover, .list-group-item:active {
+    background: rgb(0,123,255);
+    color:white;
+}
+
+.nav-link {
+    color: rgb(0, 123, 255);
+    background: rgb(248,249,250);
+}
+
+.form-label {
+    margin-bottom: 0;
+    font-weight: bold;
+}
