@@ -1,6 +1,6 @@
 package ru.kata.spring.boot_security.demo.exceptions;
 
-public class UserIncorrectID {
+public class UserIncorrectInfo {
 
     private String info;
 

@@ -32,7 +32,7 @@ function fillRow(parentElement, usersData) {
 
 function fillNavbar({username, roleNames}) {
     currentUserName.innerText = username;
-    roleNames.forEach(role => navRoles.innerText += role + " ")
+    roleNames.forEach(role => navRoles.innerText += " " + role)
 }
 
 // STATIC DATA OF TABLE HEAD

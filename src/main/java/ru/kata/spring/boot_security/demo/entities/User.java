@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.entities;
 
 
+import org.hibernate.annotations.Fetch;
 import ru.kata.spring.boot_security.demo.dto.UserDTO;
 
 import javax.persistence.*;
@@ -39,7 +40,7 @@ public class User {
 
     @Column(name = "age")
     private int age;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

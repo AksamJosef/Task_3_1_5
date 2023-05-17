@@ -14,13 +14,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UsersRepository usersRepository;
-    private final RolesRepository rolesRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UsersRepository usersRepository, RolesRepository rolesRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
-        this.rolesRepository = rolesRepository;
         this.passwordEncoder = passwordEncoder;
     }
 

@@ -10,8 +10,8 @@ const newUserRoles = document.getElementById("newUserRoles");
 tableBody.addEventListener("click", handleModalWindow);
 fetchAllUsers()
     .then(users => {
-    fetchCurrentUser().then(currentUser => fillNavbar(currentUser));
-    fillTable(tableHead, tableBody, users);
+        fetchCurrentUser().then(currentUser => fillNavbar(currentUser));
+        fillTable(tableHead, tableBody, users);
 })
     .then(() => fillNewUserRoles());
 /** END TABLE */
@@ -49,6 +49,7 @@ async function saveUser(user) {
             "Content-Type": "application/json"
         }, body: JSON.stringify(user)
     });
+    if (response.status === 400) {modalError(await response.json())}
     return response.json();
 }
 
@@ -59,6 +60,9 @@ async function updateUser(user) {
             "Content-Type": "application/json"
         }, body: JSON.stringify(user)
     });
+    if (response.status === 400) {
+        modalError(await response.json())
+    }
     return response.json();
 }
 
@@ -98,8 +102,13 @@ function fillRows(parentElement, usersData) {
 }
 
 function fillNavbar({username, roleNames}) {
+    roleNames.forEach(role => navRoles.innerText += " " + role);
     currentUserName.innerText = username;
-    roleNames.forEach(role => navRoles.innerText += role + " ")
+
+}
+
+function modalError ({info}) {
+    alert(info);
 }
 
 /**  END: METHODS TO FILL TABLE HEAD AND CONTENT */
@@ -420,3 +429,6 @@ function createUserForm(action, user, allRoles) {
 }
 
 /**  END MODALS */
+
+
+

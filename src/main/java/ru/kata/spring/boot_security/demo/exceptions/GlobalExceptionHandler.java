@@ -9,18 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler
-    public ResponseEntity<UserIncorrectID> handleException(NoSuchUserException exception) {
-        UserIncorrectID userIncorrectID = new UserIncorrectID();
-        userIncorrectID.setInfo(exception.getMessage());
+    public ResponseEntity<UserIncorrectInfo> handleException(Exception exception) {
+        UserIncorrectInfo userIncorrectInfo = new UserIncorrectInfo();
+        userIncorrectInfo.setInfo(exception.getMessage());
 
-        return new ResponseEntity<>(userIncorrectID, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<UserIncorrectID> handleException(Exception exception) {
-        UserIncorrectID userIncorrectID = new UserIncorrectID();
-        userIncorrectID.setInfo(exception.getMessage());
-
-        return new ResponseEntity<>(userIncorrectID, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(userIncorrectInfo, HttpStatus.BAD_REQUEST);
     }
 }
